@@ -1,0 +1,23 @@
+#home {
+    padding: 72px;
+
+    display: grid; 
+    gap: 72px;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+#scenes-list-wrapper, #upload-images-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+#unity-scene {
+    overflow: hidden;
+    
+    canvas {
+        overflow: hidden;   
+        border: 0;
+        outline: 0;
+    }
+}

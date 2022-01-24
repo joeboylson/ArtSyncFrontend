@@ -1,0 +1,11 @@
+.file-upload {
+
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    .inputs-wrapper {
+        display: flex;
+        gap: 24px;
+    }
+}

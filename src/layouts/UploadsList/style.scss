@@ -1,0 +1,17 @@
+.uploads-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+
+    .uploads-item {
+
+        img {
+            width: 100%;
+        }
+
+        p {
+            font-size: 10px;
+        }
+    }
+}
+
