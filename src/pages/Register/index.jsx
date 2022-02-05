@@ -5,6 +5,7 @@ import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { objectToFormData, usePost } from "../../utils/request";
 import './style.scss'
+import PageWrapper from "../../components/PageWrapper";
 
 const Register = () => {
     
@@ -22,54 +23,59 @@ const Register = () => {
     }
   
     return (
-      <form onSubmit={handleSubmit(onSubmit)} id="register">
-        <Loading loading={loading}>
-          { result && !result.data.success &&
-              <p>{result.data.message}</p>
-          }
+      <PageWrapper hideHeader>
+        <form onSubmit={handleSubmit(onSubmit)} id="register">
+          <Loading loading={loading}>
 
-          <Controller
-            name="name"
-            control={control}
-            render={({ field: { onChange } }) => (
-              <input 
-                name="name" 
-                placeholder="Name"
-                onChange={onChange}
-              />
-            )}
-          />
+            <h1>Register</h1>
 
-          <Controller
-            name="email"
-            control={control}
-            render={({ field: { onChange } }) => (
-              <input 
-                name="email" 
-                placeholder="Email"
-                onChange={onChange}
-              />
-            )}
-          />
+            { result && !result.data.success &&
+                <p>{result.data.message}</p>
+            }
 
-          <Controller
-            name="password"
-            control={control}
-            render={({ field: { onChange } }) => (
-              <input 
-                name="password" 
-                placeholder="Password"
-                type="password"
-                onChange={onChange}
-              />
-            )}
-          />
+            <Controller
+              name="name"
+              control={control}
+              render={({ field: { onChange } }) => (
+                <input 
+                  name="name" 
+                  placeholder="Name"
+                  onChange={onChange}
+                />
+              )}
+            />
 
-          <button type="submit">Register</button>
+            <Controller
+              name="email"
+              control={control}
+              render={({ field: { onChange } }) => (
+                <input 
+                  name="email" 
+                  placeholder="Email"
+                  onChange={onChange}
+                />
+              )}
+            />
 
-          <Link to="/login">Already registered?</Link>
-        </Loading>
-      </form>
+            <Controller
+              name="password"
+              control={control}
+              render={({ field: { onChange } }) => (
+                <input 
+                  name="password" 
+                  placeholder="Password"
+                  type="password"
+                  onChange={onChange}
+                />
+              )}
+            />
+
+            <button type="submit">Register</button>
+
+            <Link to="/login">Already registered?</Link>
+          </Loading>
+        </form>
+      </PageWrapper>
     );
   }
 

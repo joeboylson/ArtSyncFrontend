@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 import "./style.scss";
 
-const PageWrapper = ({ children }) => {
+const PageWrapper = ({ children, hideHeader }) => {
   const { push } = useHistory();
   const { profile, loading } = useProfile();
 
@@ -21,14 +21,18 @@ const PageWrapper = ({ children }) => {
   return (
     <div id="page-wrapper">
       <Loading loading={loading}>
-        <div id="profile-header">
-          <p>Welcome, {profile && profile.name}</p>
-          <button onClick={logout}>Logout</button>
+        
+        { !hideHeader && 
+          <div id="profile-header">
+            <p>Welcome, {profile && profile.name}</p>
+            <button onClick={logout}>Logout</button>
 
-          <Link to="/home">Home</Link>
-          <Link to="/gallery/new">New Gallery</Link>
-          <Link to="/preview/1">Test Scene</Link>
-        </div>
+            <Link to="/home">Home</Link>
+            <Link to="/gallery/new">New Gallery</Link>
+            <Link to="/preview/1">Test Scene</Link>
+          </div>
+        }
+        
         {children}
       </Loading>
     </div>

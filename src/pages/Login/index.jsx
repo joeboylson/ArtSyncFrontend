@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { objectToFormData, usePost } from "../../utils/request";
 
 import './style.scss'
+import PageWrapper from "../../components/PageWrapper";
 
 const Login = () => {
     
@@ -23,42 +24,47 @@ const Login = () => {
   }
   
   return (
-    <form onSubmit={handleSubmit(onSubmit)} id="login">
-      <Loading loading={loading}>
-        { result && !result.data.success &&
-          <p>{result.data.message}</p>
-        }
+    <PageWrapper hideHeader>
+      <form onSubmit={handleSubmit(onSubmit)} id="login">
+        <Loading loading={loading}>
 
-        <Controller
-          name="email"
-          control={control}
-          render={({ field: { onChange } }) => (
-            <input 
-              name="email" 
-              placeholder="Email"
-              onChange={onChange}
-            />
-          )}
-        />
+          <h1>Login</h1>
 
-        <Controller
-          name="password"
-          control={control}
-          render={({ field: { onChange } }) => (
-            <input 
-              name="password" 
-              placeholder="Password"
-              type="password"
-              onChange={onChange}
-            />
-          )}
-        />
+          { result && !result.data.success &&
+            <p>{result.data.message}</p>
+          }
 
-        <button>Login</button>
+          <Controller
+            name="email"
+            control={control}
+            render={({ field: { onChange } }) => (
+              <input 
+                name="email" 
+                placeholder="Email"
+                onChange={onChange}
+              />
+            )}
+          />
 
-        <Link to="/register">Register</Link>
-      </Loading>
-    </form>
+          <Controller
+            name="password"
+            control={control}
+            render={({ field: { onChange } }) => (
+              <input 
+                name="password" 
+                placeholder="Password"
+                type="password"
+                onChange={onChange}
+              />
+            )}
+          />
+
+          <button>Login</button>
+
+          <Link to="/register">Register</Link>
+        </Loading>
+      </form>
+    </PageWrapper>
   );
 }
 

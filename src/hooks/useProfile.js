@@ -8,10 +8,9 @@ export const useProfile = () => {
 
   const fetchProfile = useCallback(() => {
     setLoading(true)
-    get('/profile').then( ({data}) => {
-      setProfile(data.profile);
-      setLoading(false);
-    })
+    get('/profile')
+    .then( ({data}) => setProfile(data.profile))
+    .finally(() => setLoading(false))
   }, [])
 
   useEffect(fetchProfile, [fetchProfile]);
