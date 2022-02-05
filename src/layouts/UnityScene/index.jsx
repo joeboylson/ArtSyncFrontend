@@ -1,19 +1,19 @@
 import Unity, { UnityContext } from "react-unity-webgl";
 import { useWindowSize } from "../../hooks/useWindowSize";
 
-const UnityScene = ({ currentScene, onLoad }) => {
+const UnityScene = ({ scene, onLoad }) => {
 
-  const { width, height } = useWindowSize()
+  const { width, height } = useWindowSize();
+  const unityContext = new UnityContext( JSON.parse(scene.context_string) );
 
-  console.log(width, height)
-  
-  const unityContext = new UnityContext(currentScene.context);
-  unityContext.on("loaded", () => onLoad(unityContext));
+  console.log(unityContext)
+
+  unityContext.on("loaded", () => onLoad(unityContext))
 
   return (
     <Unity
       unityContext={unityContext}
-      onLoad={() => console.log("ON LOAD")}
+      onLoad={() => console.log("LOADED")}
       style={{ 
         width: width - 1, 
         height: height - 5 

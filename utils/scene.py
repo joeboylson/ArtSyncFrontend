@@ -28,10 +28,10 @@ def get_scenes():
 
                     # camelCase for JS
                     context = {
-                        "loaderUrl": os.path.join(build_folderpath, loader_url),
-                        "dataUrl": os.path.join(build_folderpath, data_url),
-                        "frameworkUrl": os.path.join(build_folderpath, framework_url),
-                        "codeUrl": os.path.join(build_folderpath, code_url),
+                        "loaderUrl": "/" + os.path.join(build_folderpath, loader_url),
+                        "dataUrl": "/" + os.path.join(build_folderpath, data_url),
+                        "frameworkUrl": "/" + os.path.join(build_folderpath, framework_url),
+                        "codeUrl": "/" + os.path.join(build_folderpath, code_url),
                     }
 
                     scenes.append({

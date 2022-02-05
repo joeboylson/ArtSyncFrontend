@@ -23,8 +23,10 @@ def seed_scenes():
     scenes = get_scenes()
     for scene in scenes:
         name = scene['name']
-        folder_path = scene['folder_path']
+        folder_path = "\{}".format(scene['folder_path'])
         context = scene['context']
+
+        print(folder_path)
 
         _new_scene = Scenes(
             name=name, 
@@ -46,6 +48,5 @@ def seed_all():
     seed_file_types()
     seed_scenes()
     seed_users()
-
     db.session.commit()
     

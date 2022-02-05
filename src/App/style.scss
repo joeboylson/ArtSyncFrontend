@@ -77,3 +77,18 @@ input {
         border: 1px solid #1890ff;
     }
 }
+
+form {
+
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    .field-wrapper, .radio-wrapper {
+        label {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+    }
+}

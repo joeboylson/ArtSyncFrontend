@@ -16,7 +16,7 @@ from .seed import seed_all
 
 def init_db(production=False):
 
-    print("::: INITIALIZING BD", production)
+    print("::: INITIALIZING DB", production)
 
     if production:
         return

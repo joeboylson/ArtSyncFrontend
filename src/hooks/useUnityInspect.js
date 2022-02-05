@@ -7,11 +7,17 @@ export const useUnityInspect = () => {
   const inspectEvent = new CustomEvent('unity-inspect', {detail: "Any Object Here"});
   const uninspectEvent = new CustomEvent('unity-uninspect');
 
-  console.log({inspectedImage})
+  const inspectCallback = ({detail}) => setInspectedImage(detail);
+  const uninspectCallback = () => setInspectedImage(null);
 
   useEffect(() => {
-    window.addEventListener('unity-inspect', ({detail}) => setInspectedImage(detail), false);
-    window.addEventListener('unity-uninspect', ({detail}) => setInspectedImage(detail), false);
+    window.addEventListener('unity-inspect', inspectCallback);
+    window.addEventListener('unity-large-inspect', inspectCallback);
+    window.addEventListener('unity-small-inspect', inspectCallback);
+
+    window.addEventListener('unity-empty-inspect', inspectCallback);
+    window.addEventListener('unity-uninspect', uninspectCallback);
+    
   }, [])
 
   return { inspectedImage, inspectEvent, uninspectEvent }

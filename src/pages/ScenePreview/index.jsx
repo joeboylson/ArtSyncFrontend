@@ -9,20 +9,13 @@ const ScenePreview = () => {
     const { sceneId } = useParams();
     const { loading, scene, refetch } = useSceneById(sceneId)
 
-    console.log({scene})
-
     const context = useMemo(() => {
         if (scene) {
             return JSON.parse(scene.context_string);
         }
     }, [scene])
 
-    console.log({context})
-
-    useEffect(() => {
-        console.log(sceneId)
-        refetch(sceneId)
-    }, [refetch, sceneId]);
+    useEffect(() => refetch(sceneId), [refetch, sceneId]);
 
     return (
         <Loading loading={loading}>

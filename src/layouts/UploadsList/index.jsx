@@ -13,7 +13,7 @@ const UploadsList = ({ renderFooter }) => {
           uploads.map((upload, i) => {
             return (
                 <div className="uploads-item" key={i}>
-                    <img src={upload} alt={upload}/>
+                    <img src={`/${upload}`} alt={upload}/>
                     { renderFooter && renderFooter(upload) }
                 </div>
             )

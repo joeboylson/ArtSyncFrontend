@@ -13,7 +13,6 @@ def page_not_found():
     return render_template('index.html')
 
 
-
 @unprotected.route('/')
 def index():
     return render_template('index.html', )

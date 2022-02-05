@@ -1,4 +1,5 @@
 from sqlalchemy_serializer import SerializerMixin
+
 from .db import db
 
 class Galleries(SerializerMixin, db.Model):
