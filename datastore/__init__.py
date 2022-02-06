@@ -18,8 +18,8 @@ def init_db(production=False):
 
     print("::: INITIALIZING DB", production)
 
-    if production:
-        return
+    # if production:
+    #    return
 
     print("::: DROPPING ALL TABLES")
     db.drop_all()
