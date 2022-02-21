@@ -6,6 +6,8 @@ import "./style.scss";
 const UploadsList = ({ renderFooter }) => {
   const { loading, uploads } = useUploads();
 
+  console.log({uploads})
+
   return (
     <Loading loading={loading}>
       <div className="uploads-list">
@@ -13,7 +15,7 @@ const UploadsList = ({ renderFooter }) => {
           uploads.map((upload, i) => {
             return (
                 <div className="uploads-item" key={i}>
-                    <img src={`/${upload}`} alt={upload}/>
+                    <img src={`${upload.path}`} alt={upload.path}/>
                     { renderFooter && renderFooter(upload) }
                 </div>
             )

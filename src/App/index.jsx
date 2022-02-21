@@ -1,11 +1,11 @@
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import ScenePreview from "../pages/ScenePreview";
 import AddEditGallery from "../pages/AddEditGallery";
 import UserGallery from "../pages/UserGallery";
 import GalleryView from "../pages/GalleryView";
 import ProtectedRoute from "../layouts/ProtectedRoute";
+
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { NotificationContainer } from "react-notifications";
 

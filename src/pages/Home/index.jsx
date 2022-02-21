@@ -3,6 +3,7 @@ import UploadsList from "../../layouts/UploadsList";
 import PageWrapper from "../../components/PageWrapper";
 import UserGalleriesList from "../../layouts/UserGalleriesList";
 import { useUploads } from "../../hooks/useUploads";
+import { notifySuccess } from "../../utils/notification";
 
 import "./style.scss";
 
@@ -11,6 +12,7 @@ const Home = () => {
 
   return (
     <PageWrapper>
+
       <div id="home">
         <div id="scenes-list-wrapper">
           <h3>My Galleries</h3>
@@ -24,6 +26,9 @@ const Home = () => {
           <UploadsList />
         </div>
       </div>
+
+      <button onClick={() => notifySuccess("message", "title", 3000) } >NOTIFY TEST</button>
+
     </PageWrapper>
   );
   

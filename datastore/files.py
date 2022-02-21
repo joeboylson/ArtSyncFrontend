@@ -3,7 +3,7 @@ from .db import db
 
 class Files(SerializerMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    path = db.Column(db.String(255), default="")
+    path = db.Column(db.String(1000), default="")
     uploaded_by = db.Column(db.Integer, default=-1)
 
     # relationships

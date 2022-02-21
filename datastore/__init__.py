@@ -1,5 +1,3 @@
-import json
-
 from .db import db
 
 # IMPORT MODELS AND METHODS

@@ -1,6 +1,7 @@
 import json
+
 from datastore import Scenes, FileTypes
-from datastore.users import create_user
+from queries.users import create_user
 from utils.scene import get_scenes
 from .db import db
 
@@ -41,7 +42,6 @@ def seed_users():
     print(">>> USERS")
     create_user("ADMIN", "admin@admin.com", "admin", True)
     create_user("USER", "user@user.com", "user", False)
-
 
 
 def seed_all():

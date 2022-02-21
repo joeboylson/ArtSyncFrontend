@@ -1,7 +1,6 @@
 from sqlalchemy_serializer import SerializerMixin
-from .galleries import Galleries
-from .users import Users
 from .db import db
+
 
 class UserGalleries(SerializerMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)

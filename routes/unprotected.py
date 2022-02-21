@@ -1,12 +1,13 @@
 import json
 
-from flask import Blueprint, request, render_template, current_app
+from queries import *
+from flask import Blueprint, request, render_template
 from flask_login import login_user, current_user
-from datastore import get_user_by_email, create_user
 from werkzeug.security import check_password_hash
-from utils import get_uploads
+
 
 unprotected = Blueprint('unprotected', __name__, template_folder='../build')
+
 
 @unprotected.errorhandler(404)
 def page_not_found():
@@ -26,16 +27,15 @@ def login():
     user = get_user_by_email(email)
 
     if not user:
-        return json.dumps({ "success": False, "message": "User with this email does not exist" });
+        return json.dumps({"success": False, "message": "User with this email does not exist"})
 
     login_success = check_password_hash(user.password, password)
 
-    if not login_success: 
-        return json.dumps({ "success": False, "message": "Incorrect username or password" });
+    if not login_success:
+        return json.dumps({"success": False, "message": "Incorrect username or password"})
 
     login_user(user, remember=True)
-    return json.dumps({ "success": True, "message": "Hello, {}".format(user.name) });
-
+    return json.dumps({"success": True, "message": "Hello, {}".format(user.name)})
 
 
 @unprotected.route('/register', methods=['POST'])
@@ -48,23 +48,16 @@ def register():
     user = get_user_by_email(email)
 
     if user:
-        return json.dumps({ "success": False, "message": "{} is already used".format(email) });
+        return json.dumps({"success": False, "message": "{} is already used".format(email)})
 
     new_user = create_user(name, email, password)
     if new_user:
         login_user(new_user)
-        return json.dumps({ "success": True, "message": "succesfully registered" });
+        return json.dumps({"success": True, "message": "succesfully registered"})
 
-    return json.dumps({ "success": False, "message": "Failed to register" });
-
+    return json.dumps({"success": False, "message": "Failed to register"})
 
 
 @unprotected.route('/user_is_authorized')
 def data():
-    return json.dumps({ "authorized": current_user.is_authenticated})    
-
-
-@unprotected.route('/uploads')
-def uploads():
-    uploads = get_uploads()
-    return json.dumps({ "uploads": uploads })    
+    return json.dumps({"authorized": current_user.is_authenticated})
