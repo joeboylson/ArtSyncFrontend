@@ -14,10 +14,8 @@ export const useUnityInspect = () => {
     window.addEventListener('unity-inspect', inspectCallback);
     window.addEventListener('unity-large-inspect', inspectCallback);
     window.addEventListener('unity-small-inspect', inspectCallback);
-
     window.addEventListener('unity-empty-inspect', inspectCallback);
     window.addEventListener('unity-uninspect', uninspectCallback);
-    
   }, [])
 
   return { inspectedImage, inspectEvent, uninspectEvent }

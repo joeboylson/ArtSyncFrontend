@@ -10,8 +10,5 @@ def serialize_value(value):
 
 
 def serialize_array(data_array):
-
-  print("data array", data_array)
-
   if data_array is not None:
     return [serialize_value(i) for i in data_array]

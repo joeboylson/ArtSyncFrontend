@@ -10,9 +10,6 @@ protected = Blueprint('protected', __name__)
 @protected.before_request
 # @login_required
 def before_request():
-
-    print("::: BEFORE PROTECTED REQUEST")
-
     if current_app.debug:
         return
 
@@ -53,24 +50,47 @@ def scene():
 
 @protected.route('/user_galleries')
 def user_galleries():
-    user_id = current_user.id
+    user_id = request.args.get('userId') or current_user.id
+
+    print("USER_GALLERIES")
+    print(user_id)
+
     user_galleries = get_user_galleries_by_user_id(user_id)
     user_galleries_serialized = serialize_array(user_galleries)
     return json.dumps({ "success": True, "user_galleries": user_galleries_serialized })
 
 
+@protected.route('/explore_galleries')
+def explore_galleries():
+    explore_galleries = get_explore_galleries()
+    explore_galleries_serialized = serialize_array(explore_galleries)
+    return json.dumps({ "success": True, "explore_galleries": explore_galleries_serialized })
+
+
 @protected.route('/user_gallery')
 def user_gallery():
-    user_id = current_user.id
     gallery_id = request.args.get('galleryId')
-
-    user_gallery = get_user_gallery_by_id(user_id, gallery_id)
+    user_gallery = get_user_gallery_by_id(gallery_id)
 
     if user_gallery is None:
         return json.dumps({ "success": True, "user_gallery": None })
 
-    user_gallery_serialized = user_gallery.to_dict()
+    print(user_gallery)
+
+    user_gallery_serialized = serialize_array(list(user_gallery))
     return json.dumps({ "success": True, "user_gallery": user_gallery_serialized })
+
+
+@protected.route('/gallery')
+def gallery():
+    gallery_id = request.args.get('galleryId')
+    gallery = get_gallery_by_id(gallery_id)
+
+    if gallery is None:
+        return json.dumps({ "success": True, "gallery": None })
+
+    gallery_serialized = gallery.to_dict()
+    return json.dumps({ "success": True, "gallery": gallery_serialized })
 
 
 @protected.route('/new_gallery', methods=["POST"])

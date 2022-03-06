@@ -1,5 +1,5 @@
-const Loading = ({loading=false, children}) => {
-    if (loading) return <h2>Loading . . .</h2>;
+const Loading = ({loading=false, className, children}) => {
+    if (loading) return <h2 className={className}>Loading . . .</h2>;
     return children;
 }
 

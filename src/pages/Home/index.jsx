@@ -1,37 +1,28 @@
-import FileUpload from "../../components/FileUpload";
-import UploadsList from "../../layouts/UploadsList";
 import PageWrapper from "../../components/PageWrapper";
-import UserGalleriesList from "../../layouts/UserGalleriesList";
-import { useUploads } from "../../hooks/useUploads";
-import { notifySuccess } from "../../utils/notification";
+import NewGalleryButton from "../../layouts/NewGalleryButton";
+import GalleriesList from "../../layouts/GalleriesList";
+import { useMemo } from "react";
+import { useUserGalleries } from "../../hooks/useUserGalleries";
+import { formatAPIGalleries } from "../../utils/gallery";
 
 import "./style.scss";
 
 const Home = () => {
-  const { refetchUploadsEvent } = useUploads();
+
+  const { loading: useUserGalleriesLoading, userGalleries } = useUserGalleries()
+  const isLoading = useMemo(() => useUserGalleriesLoading, [useUserGalleriesLoading]);
+
+  const galleries = formatAPIGalleries(userGalleries);
 
   return (
     <PageWrapper>
-
       <div id="home">
-        <div id="scenes-list-wrapper">
-          <h3>My Galleries</h3>
-          <UserGalleriesList />
-        </div>
-
-        <div id="upload-images-wrapper">
-          <FileUpload
-            afterUpload={() => window.dispatchEvent(refetchUploadsEvent)}
-          />
-          <UploadsList />
-        </div>
+        <h1>My Galleries</h1>
+        <GalleriesList galleries={galleries} skeleton={isLoading}/>
+        <NewGalleryButton/>
       </div>
-
-      <button onClick={() => notifySuccess("message", "title", 3000) } >NOTIFY TEST</button>
-
     </PageWrapper>
   );
-  
 };
 
 export default Home;

@@ -10,10 +10,10 @@ export const useUploads = () => {
 
   const fetchUploads = useCallback(() => {
     setLoading(true)
-    get('/uploads').then( ({data}) => {
-      setUploads(data.uploads);
-      setLoading(false);
-    })
+    get('/uploads')
+    .then( ({data}) => setUploads(data.uploads))
+    .catch(error => console.log({error}))
+    .finally(() => setLoading(false))
   }, [])
 
   useEffect(fetchUploads, [fetchUploads]);

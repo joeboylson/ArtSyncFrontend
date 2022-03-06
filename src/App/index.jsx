@@ -2,15 +2,16 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import AddEditGallery from "../pages/AddEditGallery";
-import UserGallery from "../pages/UserGallery";
-import GalleryView from "../pages/GalleryView";
 import ProtectedRoute from "../layouts/ProtectedRoute";
+import PageWrapper from "../components/PageWrapper";
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { NotificationContainer } from "react-notifications";
 
 import "./style.scss";
-import SceneTest from "../pages/SceneTest";
+import Explore from "../pages/Explore";
+import ViewGallery from "../pages/ViewGallery";
+import Content from "../pages/Content";
 
 const App = () => {
   return (
@@ -26,39 +27,72 @@ const App = () => {
             <Register />
           </Route>
 
-          <Route exact path={["/preview/:sceneId"]}>
+          {/* GALLERY ROUTES */}
+          <Route exact path={["/gallery/new", "/gallery/edit/:galleryId"]}>
             <ProtectedRoute>
-              <SceneTest/>
-            </ProtectedRoute>
-          </Route>
-
-          <Route exact path={["/gallery/new"]}>
-            <ProtectedRoute>
-              <AddEditGallery />
-            </ProtectedRoute>
-          </Route>
-
-          <Route exact path={["/gallery/edit/:galleryId"]}>
-            <ProtectedRoute>
-              <AddEditGallery />
+              <AddEditGallery/>
             </ProtectedRoute>
           </Route>
 
           <Route exact path={["/gallery/:galleryId"]}>
             <ProtectedRoute>
-              <UserGallery />
+              <ViewGallery/>
             </ProtectedRoute>
           </Route>
 
-          <Route exact path={["/gallery/view/:galleryId"]}>
+          {/* EXPLORE ROUTES */}
+
+          <Route exact path={["/explore"]}>
             <ProtectedRoute>
-              <GalleryView />
+              <Explore/>
             </ProtectedRoute>
           </Route>
+
+          <Route exact path={["/explore/gallery/:galleryId"]}>
+            <ProtectedRoute>
+              <PageWrapper>
+                <Link to="/explore">{`< Back`}</Link>
+                <p>explore gallery :galleryId</p>
+                <p>(user does not own this - just gallery without controls)</p>
+              </PageWrapper>
+            </ProtectedRoute>
+          </Route>
+
+          <Route exact path={["/profile/:userId"]}>
+            <ProtectedRoute>
+              <PageWrapper>
+                <Link to="/explore">{`< Back`}</Link>
+                <p>explore profile :userId</p>
+                <ul>
+                  <li>Show user details</li>
+                  <li>Show all user galleries</li>
+                </ul>
+              </PageWrapper>
+            </ProtectedRoute>
+          </Route>
+
+          {/* CONTENT ROUTES */}
+
+          <Route exact path={["/content"]}>
+            <ProtectedRoute>
+              <Content/>
+            </ProtectedRoute>
+          </Route>
+
+          <Route exact path={["/content/scene/:sceneId"]}>
+            <ProtectedRoute>
+              <PageWrapper>
+                <Link to="/content">{`< Back to Content`}</Link>
+                <p>content - preview scene :sceneId</p>
+              </PageWrapper>
+            </ProtectedRoute>
+          </Route>
+
+          {/* HOME ROUTES */}
 
           <Route exact path={["/", "/home"]}>
             <ProtectedRoute>
-              <Home />
+              <Home/>
             </ProtectedRoute>
           </Route>
 

@@ -7,17 +7,13 @@ export const useUserGalleryById = (galleryId) => {
   const [loading, setLoading] = useState(false);
 
   const fetchUserGallery = useCallback(() => {
-
     if (!galleryId) return;
 
-    console.log("FETCH USER GALLERY", galleryId)
-
     setLoading(true)
-    get(`/user_gallery?galleryId=${galleryId}`).then(({data}) => {
-      setUserGallery(data.user_gallery);
-      setLoading(false);
-    })
-    .catch(err => console.log(err))
+    get(`/user_gallery?galleryId=${galleryId}`)
+    .then(({data}) => setUserGallery(data.user_gallery))
+    .catch(error => console.log({error}))
+    .finally(() => setLoading(false))
   }, [galleryId])
 
   useEffect(fetchUserGallery, [fetchUserGallery]);

@@ -14,11 +14,9 @@ const ProtectedRoute = ({children}) => {
   }, [data, push])
 
   return (
-    <div id="route-loading">
-      <Loading loading={loading}>
-        { children }
-      </Loading>
-    </div>
+    <Loading className="auth-loading" loading={loading}>
+      { children }
+    </Loading>
     );
 }
 

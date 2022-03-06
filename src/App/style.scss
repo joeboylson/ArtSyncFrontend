@@ -6,10 +6,31 @@
     margin: 0;
     font-family: 'Roboto';
     text-decoration: none;
+
+    // SCROLLBAR
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    // SCROLLBAR TRACK
+    ::-webkit-scrollbar-track {
+        background: #DDD;
+        border-radius: 8px;
+    }
+    
+    // SCROLLBAR HANDLE
+    ::-webkit-scrollbar-thumb {
+        background: #AAA;
+        border-radius: 8px;
+
+        &:hover {
+            background: #2c2c2c;
+        }
+    }
 }
 
 html {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: #EEE;
 }
 
 h1 {
@@ -58,6 +79,7 @@ button {
     color: black;
     border: 1px solid black;
     outline: none;
+    cursor: pointer;
 
     &:focus, &:hover {
         background-color: rgba(0, 0, 0, 0.1);

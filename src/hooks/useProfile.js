@@ -10,6 +10,7 @@ export const useProfile = () => {
     setLoading(true)
     get('/profile')
     .then( ({data}) => setProfile(data.profile))
+    .catch(error => console.log({error}))
     .finally(() => setLoading(false))
   }, [])
 

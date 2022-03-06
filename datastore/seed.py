@@ -1,9 +1,11 @@
 import json
 
 from datastore import Scenes, FileTypes
-from queries.users import create_user
 from utils.scene import get_scenes
 from .db import db
+from .seed_data import test_users
+from queries.users import create_user
+from queries.galleries import create_user_gallery
 
 
 def seed_file_types():
@@ -38,10 +40,30 @@ def seed_scenes():
         db.session.add(_new_scene)
 
 
+def seed_galleries_for_user(user):
+    scene = Scenes.query.first()
+
+    gallery_prefixes = ["First", "Second", "Third"]
+    for pre in gallery_prefixes:
+        name = "{}'s {} Gallery".format(user.name, pre)
+        create_user_gallery(user.id, scene.id, name, True)
+
+
+
 def seed_users():
     print(">>> USERS")
-    create_user("ADMIN", "admin@admin.com", "admin", True)
-    create_user("USER", "user@user.com", "user", False)
+    admin = create_user("ADMIN", "admin@admin.com", "admin", True)
+    user = create_user("USER", "user@user.com", "user", False)
+
+    seed_galleries_for_user(admin)
+    seed_galleries_for_user(user)
+
+    for u in test_users:
+        _new_user = create_user(*u)
+        seed_galleries_for_user(_new_user)
+
+        
+
 
 
 def seed_all():

@@ -24,7 +24,7 @@ const Login = () => {
   }
   
   return (
-    <PageWrapper hideHeader>
+    <PageWrapper hideNav>
       <form onSubmit={handleSubmit(onSubmit)} id="login">
         <Loading loading={loading}>
 

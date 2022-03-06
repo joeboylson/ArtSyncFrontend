@@ -1,0 +1,16 @@
+.new-gallery-button {
+
+  $button-size: 48px;
+
+  position: fixed;
+  bottom: 90px;
+  right: 27px;
+
+  background-color: #222222;
+  width: $button-size;
+  height: $button-size;
+  display: grid;
+  place-items: center;
+  color: white;
+  border-radius: $button-size;
+}

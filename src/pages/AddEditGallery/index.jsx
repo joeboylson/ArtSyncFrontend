@@ -39,7 +39,7 @@ const AddEditGallery = () => {
             name="name"
             control={control}
             render={({ field: { onChange } }) => (
-              <div class="field-wrapper">
+              <div className="field-wrapper">
                 <label htmlFor="galleryName">
                   Gallery Name
                   <input
@@ -55,7 +55,7 @@ const AddEditGallery = () => {
             name="isPublic"
             control={control}
             render={({ field: { onChange } }) => (
-              <div class="field-wrapper">
+              <div className="field-wrapper">
                 <label htmlFor="isPublic">
                   <input
                     name="isPublic"
@@ -77,7 +77,7 @@ const AddEditGallery = () => {
                 { scenes && scenes.map(s => {
                   const radioName = `field-${s.id}`;
                   return (
-                    <div class="radio-wrapper">
+                    <div className="radio-wrapper">
                       <label htmlFor={radioName}>
                         <input
                           type="radio"

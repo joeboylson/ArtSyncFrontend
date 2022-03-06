@@ -1,40 +1,52 @@
-import React from "react";
-import axios from "axios";
-import Loading from "../Loading";
-import { useProfile } from "../../hooks/useProfile";
-import { useHistory } from "react-router";
+import ProfileButton from '../../layouts/ProfileButton';
+
+import { useMemo } from 'react';
 import { Link } from "react-router-dom";
+import { HomeOutlined, PublicOutlined, CollectionsOutlined } from "@material-ui/icons";
 
 import "./style.scss";
 
-const PageWrapper = ({ children, hideHeader }) => {
-  const { push } = useHistory();
-  const { profile, loading } = useProfile();
+const PageWrapper = ({ children, hideNav }) => {
 
-  const logout = () => {
-    axios.get("/logout").then((data) => {
-      console.log({ data });
-      push("/login");
-    });
-  };
+  const isHomeRoute = useMemo(() => {
+    const _isHome = window.location.pathname === "/";
+    const _isGalleryNew = window.location.pathname === "/gallery/new";
+    return _isHome || _isGalleryNew;
+  }, []);
+  const isExploreRoute = useMemo(() => window.location.pathname.includes("explore"), []);
+  const isContentRoute = useMemo(() => window.location.pathname.includes("content"), []);
 
   return (
     <div id="page-wrapper">
-      <Loading loading={loading}>
         
-        { !hideHeader && 
-          <div id="profile-header">
-            <p>Welcome, {profile && profile.name}</p>
-            <button onClick={logout}>Logout</button>
+        { !hideNav && 
+          <nav>
+            <div id="nav-inner">
+              <span id="logo"></span>
 
-            <Link to="/home">Home</Link>
-            <Link to="/gallery/new">New Gallery</Link>
-            <Link to="/preview/1">Test Scene</Link>
-          </div>
+              <div id="links">
+                <Link className={isHomeRoute ? "active" : ""} to="/">
+                  <HomeOutlined/>
+                </Link>
+
+                <Link className={isExploreRoute ? "active" : ""} to="/explore">
+                  <PublicOutlined/>
+                </Link>
+                
+                <Link className={isContentRoute ? "active" : ""} to="/content">
+                  <CollectionsOutlined/>
+                </Link>
+              </div>
+
+              <ProfileButton />
+
+            </div>
+          </nav>
         }
         
-        {children}
-      </Loading>
+        <div id="page-content">
+          {children}
+        </div>
     </div>
   );
 };
