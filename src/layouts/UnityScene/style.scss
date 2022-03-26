@@ -1,0 +1,5 @@
+canvas {
+  &.disable-pointer {
+    pointer-events: none;
+  }
+}

@@ -1,4 +1,3 @@
-import Loading from "../../components/Loading";
 import PageWrapper from "../../components/PageWrapper";
 import GalleriesList from "../../layouts/GalleriesList";
 import { useMemo } from "react";

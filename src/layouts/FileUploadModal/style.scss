@@ -1,0 +1,55 @@
+.file-upload-modal {
+  background-color: rgba(34, 34, 34, 0.5 );
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  .file-upload-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 24px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    display: grid;
+    gap: 24px;
+
+    select, input {
+      width: calc(100% - 24px);
+      border-radius: 6px;
+      outline: none;
+    }
+
+    select {
+      width: 100%;
+      display: block;
+      padding: 12px;
+      border: 1px solid black;
+
+      &::-ms-expand {
+        padding: 12px;
+      }
+    }
+
+    button {
+      width: 100px;
+      padding: 4px;
+      margin: auto;
+      background-color: #222222;
+      border-radius: 12px;
+      color: white;
+      font-size: 12px;
+
+      &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+    }
+  }
+}

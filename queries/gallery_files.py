@@ -24,10 +24,27 @@ def get_gallery_file_by_id(gallery_file_id):
         return None
 
 
-def create_gallery_file(name, position, size, gallery_id, file_id):
+def get_gallery_files_by_gallery_id(gallery_id):
+    try:
+        q = db.session.query(GalleryFiles)
+        q = q.filter(GalleryFiles.gallery_id == gallery_id)
+        return q.all()
+    except Exception as e:
+        print(e)
+        return None
+
+
+
+def create_gallery_file(position, size, frame, gallery_id, file_id):
     try:
         new_gallery_file = GalleryFiles(
-            name=name, position=position, size=size, gallery_id=gallery_id, file_id=file_id)
+            position=position, 
+            size=size,
+            frame=frame,
+            gallery_id=gallery_id, 
+            file_id=file_id
+        )
+
         db.session.add(new_gallery_file)
         db.session.commit()
         return new_gallery_file

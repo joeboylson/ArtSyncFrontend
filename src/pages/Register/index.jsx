@@ -23,7 +23,7 @@ const Register = () => {
     }
   
     return (
-      <PageWrapper hideNav>
+      <PageWrapper hideNav centerContent>
         <form onSubmit={handleSubmit(onSubmit)} id="register">
           <Loading loading={loading}>
 
