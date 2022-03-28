@@ -79,7 +79,9 @@ const UnityInspectControls = ({unityContext}) => {
       inspectType,
       galleryId,
       fileId: fileItem.id,
-      galleryFiles: [{ id: -1, size, frame, position }]
+      galleryFiles: [
+        { id: -1, ...inspectedImage }
+      ]
     }
 
     post('/save_gallery_files', galleryFiles)
@@ -89,9 +91,9 @@ const UnityInspectControls = ({unityContext}) => {
         case inspectTypes.unityInspect:
           return uploadArtMap[inspectTypes.unityInspect](size, frame, position, url);
         case inspectTypes.loadLargeObject:
-          return uploadArtMap[inspectTypes.loadLargeObject](size, texture, url);
+          return uploadArtMap[inspectTypes.loadLargeObject](position, texture, url);
         case inspectTypes.loadSmallObject:
-          return uploadArtMap[inspectTypes.loadSmallObject](size, texture, url);
+          return uploadArtMap[inspectTypes.loadSmallObject](position, texture, url);
         default:
           return;
       }

@@ -1,20 +1,19 @@
 import Home from "../pages/Home";
 import Login from "../pages/Login";
-import Register from "../pages/Register";
-import AddEditGallery from "../pages/AddEditGallery";
-import ProtectedRoute from "../layouts/ProtectedRoute";
 import Explore from "../pages/Explore";
 import Gallery from "../pages/Gallery";
 import Content from "../pages/Content";
 import Profile from "../pages/Profile";
+import ViewGallery from "../pages/ViewGallery";
+import PreviewScene from "../pages/PreviewScene";
+import Register from "../pages/Register";
+import ProtectedRoute from "../layouts/ProtectedRoute";
 import ProfileContextWrapper from "../context/ProfileContext";
 import ModalContextWrapper from "../context/ModalContext";
-import PreviewScene from "../pages/PreviewScene";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { NotificationContainer } from "react-notifications";
 
 import "./style.scss";
-import ViewGallery from "../pages/ViewGallery";
 
 const App = () => {
   return (
@@ -33,13 +32,6 @@ const App = () => {
               {/* register route */}
               <Route exact path={["/register"]}>
                 <Register />
-              </Route>
-
-              {/* create/edit gallery */}
-              <Route exact path={["/gallery/new", "/gallery/edit/:galleryId"]}>
-                <ProtectedRoute>
-                  <AddEditGallery/>
-                </ProtectedRoute>
               </Route>
 
               {/* view gallery details */}

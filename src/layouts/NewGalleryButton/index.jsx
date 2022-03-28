@@ -1,15 +1,27 @@
-import { Link } from 'react-router-dom';
 import { AddOutlined } from "@material-ui/icons";
+import { useCallback, useState } from 'react';
+import AddEditGalleryModal from "../AddEditGalleryModal";
 
 import "./style.scss";
 
-const NewProfileButton = () => {
+const NewGalleryButton = () => {
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const openModal = useCallback(() => setModalIsOpen(true), []);
+  const closeModal = useCallback(() => setModalIsOpen(false), []);
+
+  if (modalIsOpen) {
+    return (
+      <AddEditGalleryModal handleCancel={closeModal}/>
+    )
+  }
 
   return (
-    <Link to="/gallery/new" className="new-gallery-button">
+    <button onClick={openModal} className="new-gallery-button">
       <AddOutlined/>
-    </Link>
+    </button>
   );
 };
 
-export default NewProfileButton;
+export default NewGalleryButton;

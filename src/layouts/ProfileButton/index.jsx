@@ -10,7 +10,8 @@ const ProfileButton = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const settingsBlockProps = isOpen ? { className: "open" } : {};
-  const toggleOpen = () => setIsOpen(!isOpen);
+  // const toggleOpen = () => setIsOpen(!isOpen);
+  const toggleOpen = () => console.log("DO NOTHING")
 
   return (
     <div id="profile">

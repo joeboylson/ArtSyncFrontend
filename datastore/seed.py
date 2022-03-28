@@ -1,11 +1,38 @@
 import json
 
 from datastore import Scenes, FileTypes, Files
+from datastore.gallery_files import GalleryFiles
 from utils.scene import get_scenes
 from .db import db
 from .seed_data import test_users, test_images, test_3d_objects, test_music
 from queries.users import create_user
 from queries.galleries import create_user_gallery
+
+
+def seed_gallery_files():
+    print(">>> GALLERY FILES")
+    mock_gallery_file_one = GalleryFiles(
+        position=1,
+        inspect_type="unity-inspect",
+        size=1,
+        frame=1,
+        texture=1,
+        gallery_id=1,
+        file_id=1,
+    )
+
+    mock_gallery_file_two = GalleryFiles(
+        position=2,
+        inspect_type="unity-inspect",
+        size=1,
+        frame=1,
+        texture=1,
+        gallery_id=1,
+        file_id=1,
+    )
+
+    db.session.add(mock_gallery_file_one)
+    db.session.add(mock_gallery_file_two)
 
 
 def seed_file_types():
@@ -82,13 +109,11 @@ def seed_users():
         _new_user = create_user(*u)
         seed_galleries_for_user(_new_user)
 
-        
-
-
 
 def seed_all():
     seed_file_types()
     seed_scenes()
     seed_users()
+    seed_gallery_files()
     db.session.commit()
     

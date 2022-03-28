@@ -93,6 +93,21 @@ def gallery():
     return json.dumps({ "success": True, "gallery": gallery_serialized })
 
 
+@protected.route('/gallery_files')
+def gallery_files():
+    gallery_id = request.args.get('galleryId')
+    gallery_files = get_gallery_files_by_gallery_id(gallery_id)
+
+    print(gallery_files)
+
+    if gallery_files is None:
+        return json.dumps({ "success": True, "gallery_files": None })
+
+    gallery_serialized = serialize_array(gallery_files)
+    return json.dumps({ "success": True, "gallery_files": gallery_serialized })
+
+
+
 @protected.route('/new_gallery', methods=["POST"])
 def new_gallery():
     scene_id = request.form.get('sceneId')
@@ -119,16 +134,20 @@ def save_gallery_files():
 
     gallery_id = request_data["galleryId"]
     file_id = request_data["fileId"]
+    inspect_type = request_data["inspectType"]
 
     result = []
     for _gallery_file in request_data["galleryFiles"]:
         existing_gallery_file = get_gallery_file_by_id(_gallery_file["id"])
 
         if existing_gallery_file is None:
+            # position, size, frame, texture, inspect_type, gallery_id, file_id
             new_gallery_file = create_gallery_file(
                 position=_gallery_file["position"],
                 size=_gallery_file["size"],
                 frame=_gallery_file["frame"],
+                texture=_gallery_file["texture"],
+                inspect_type=inspect_type,
                 gallery_id=gallery_id,
                 file_id=file_id,
             )
@@ -136,12 +155,14 @@ def save_gallery_files():
             result.append(new_gallery_file.to_dict())
             continue
 
+        # gallery_file_id, position, size, frame, texture, inspect_type
         updated_gallery_file = update_gallery_file(
             gallery_file_id=existing_gallery_file.id,
-            name=_gallery_file["name"],
             position=_gallery_file["position"],
             size=_gallery_file["size"],
-            gallery_id=gallery_id,
+            frame=_gallery_file["frame"],
+            texture=_gallery_file["texture"],
+            inspect_type=inspect_type,
         )
 
         result.append(updated_gallery_file.to_dict())
