@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 
 const GalleryItem = ({galleryItem}) => {
 
+  console.log(galleryItem)
+
   const { name, id, user, thumbnail } = galleryItem;
 
   return (

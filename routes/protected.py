@@ -3,7 +3,7 @@ import json
 from queries import *
 from flask import Blueprint, request, current_app, abort
 from flask_login import logout_user, current_user
-from utils.request import serialize_array
+from utils.request import serialize_array, serialize_value
 
 protected = Blueprint('protected', __name__)
 
@@ -33,6 +33,12 @@ def profile():
     return json.dumps({"success": True, "profile": current_user.to_dict()})
 
 
+@protected.route('/user')
+def user():
+    user_id = request.args.get('userId')
+    user = get_user_by_id(user_id)
+    return json.dumps({"success": True, "user": user.to_dict()})
+
 @protected.route('/scenes')
 def scenes():
     scenes = get_all_scenes()
@@ -51,10 +57,6 @@ def scene():
 @protected.route('/user_galleries')
 def user_galleries():
     user_id = request.args.get('userId') or current_user.id
-
-    print("USER_GALLERIES")
-    print(user_id)
-
     user_galleries = get_user_galleries_by_user_id(user_id)
     user_galleries_serialized = serialize_array(user_galleries)
     return json.dumps({ "success": True, "user_galleries": user_galleries_serialized })
@@ -75,8 +77,6 @@ def user_gallery():
     if user_gallery is None:
         return json.dumps({ "success": True, "user_gallery": None })
 
-    print(user_gallery)
-
     user_gallery_serialized = serialize_array(list(user_gallery))
     return json.dumps({ "success": True, "user_gallery": user_gallery_serialized })
 
@@ -93,11 +93,24 @@ def gallery():
     return json.dumps({ "success": True, "gallery": gallery_serialized })
 
 
+@protected.route('/gallery_files')
+def gallery_files():
+    gallery_id = request.args.get('galleryId')
+    gallery_files = get_gallery_files_by_gallery_id(gallery_id)
+
+    print(gallery_files)
+
+    if gallery_files is None:
+        return json.dumps({ "success": True, "gallery_files": None })
+
+    gallery_serialized = serialize_array(gallery_files)
+    return json.dumps({ "success": True, "gallery_files": gallery_serialized })
+
+
+
 @protected.route('/new_gallery', methods=["POST"])
 def new_gallery():
     scene_id = request.form.get('sceneId')
-
-    print(scene_id)
 
     if not scene_id:
         abort(406)
@@ -119,31 +132,37 @@ def save_gallery_files():
 
     request_data = request.get_json()
 
-    _gallery_id = 1
-    _file_id = 1
+    gallery_id = request_data["galleryId"]
+    file_id = request_data["fileId"]
+    inspect_type = request_data["inspectType"]
 
     result = []
-    for _gallery_file in request_data["gallery_files"]:
+    for _gallery_file in request_data["galleryFiles"]:
         existing_gallery_file = get_gallery_file_by_id(_gallery_file["id"])
 
         if existing_gallery_file is None:
+            # position, size, frame, texture, inspect_type, gallery_id, file_id
             new_gallery_file = create_gallery_file(
-                name=_gallery_file["name"],
                 position=_gallery_file["position"],
                 size=_gallery_file["size"],
-                gallery_id=_gallery_id,
-                file_id=_file_id,
+                frame=_gallery_file["frame"],
+                texture=_gallery_file["texture"],
+                inspect_type=inspect_type,
+                gallery_id=gallery_id,
+                file_id=file_id,
             )
 
             result.append(new_gallery_file.to_dict())
             continue
 
+        # gallery_file_id, position, size, frame, texture, inspect_type
         updated_gallery_file = update_gallery_file(
             gallery_file_id=existing_gallery_file.id,
-            name=_gallery_file["name"],
             position=_gallery_file["position"],
             size=_gallery_file["size"],
-            gallery_id=_gallery_id,
+            frame=_gallery_file["frame"],
+            texture=_gallery_file["texture"],
+            inspect_type=inspect_type,
         )
 
         result.append(updated_gallery_file.to_dict())
@@ -152,26 +171,20 @@ def save_gallery_files():
     return json.dumps(result)
 
 
-
 @protected.route('/delete_gallery_file', methods=["POST"])
 def delete_gallery_file():
 
     request_data = request.get_json()
 
-
     is_deleted = delete_gallery_file_by_id(
         gallery_file_id=request_data["gallery_file_id"]
     )
-
 
     return json.dumps({ "success": is_deleted })
 
 
 @protected.route('/uploads')
 def uploads():
-    user_files = get_user_files(current_user.id)
-    user_files_serialized = [uf.to_dict() for uf in user_files]
-
-    print(user_files_serialized)
-
-    return json.dumps({ "uploads": user_files_serialized })    
+    user_files = get_user_files(1)
+    user_files_serialized = serialize_array(user_files)
+    return json.dumps({ "uploads": user_files_serialized })

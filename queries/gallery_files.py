@@ -1,4 +1,4 @@
-from datastore import db, UserGalleries, Galleries
+from datastore import db, UserGalleries, Galleries, Files
 from sqlalchemy.orm import join
 from datastore import GalleryFiles
 
@@ -24,10 +24,30 @@ def get_gallery_file_by_id(gallery_file_id):
         return None
 
 
-def create_gallery_file(name, position, size, gallery_id, file_id):
+def get_gallery_files_by_gallery_id(gallery_id):
+    try:
+        q = db.session.query(GalleryFiles, Galleries, Files)
+        q = q.select_from(join(GalleryFiles, Galleries).join(Files))
+        q = q.filter(GalleryFiles.gallery_id == gallery_id)
+        return q.all()
+    except Exception as e:
+        print(e)
+        return None
+
+
+
+def create_gallery_file(position, size, frame, texture, inspect_type, gallery_id, file_id):
     try:
         new_gallery_file = GalleryFiles(
-            name=name, position=position, size=size, gallery_id=gallery_id, file_id=file_id)
+            position=position, 
+            size=size,
+            frame=frame,
+            texture=texture,
+            gallery_id=gallery_id, 
+            inspect_type=inspect_type,
+            file_id=file_id
+        )
+
         db.session.add(new_gallery_file)
         db.session.commit()
         return new_gallery_file
@@ -36,16 +56,16 @@ def create_gallery_file(name, position, size, gallery_id, file_id):
         return None
 
 
-def update_gallery_file(gallery_file_id, name, position, size, gallery_id):
+def update_gallery_file(gallery_file_id, position, size, frame, texture, inspect_type):
     try:
-
         q = db.session.query(GalleryFiles)
         q = q.filter_by(id=gallery_file_id)
         q = q.update({
-            "name": name,
-            "position": position,
+            "position": position, 
             "size": size,
-            "gallery_id": gallery_id
+            "frame": frame,
+            "texture": texture,
+            "inspect_type": inspect_type,
         })
 
         db.session.commit()

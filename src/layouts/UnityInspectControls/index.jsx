@@ -1,51 +1,224 @@
-import { useMemo } from "react";
-import { isEmpty } from "lodash";
+import ContentListModal from '../ContentListModal';
+import { useCallback, useMemo, useState } from "react";
+import { isEmpty } from "lodash"
 import { useUnityInspect } from "../../hooks/useUnityInspect";
-import { useUploads } from "../../hooks/useUploads";
+import { useUnityPause } from "../../hooks/useUnityPause";
+import { options } from "../../constants/controlOptions";
+import { ArrowBackOutlined } from "@material-ui/icons";
+import { serverHostname } from "../../utils/env"
 
-const UnityInspectControls = ({ currentUnityContext }) => {
+import "./style.scss";
 
-  const { inspectedImage } = useUnityInspect();
-  const { uploads } = useUploads();
+const UnityInspectControls = ({unityContext}) => {
 
-  const [ size, frame, position, url ] = useMemo(() => {
-    if (!inspectedImage) return [null, null, null, null]
-    return inspectedImage.split(",")
-  }, [inspectedImage]) 
+  const [ option, setOption ] = useState();
+  const [ contentListIsVisible, setContentListIsVisible ] = useState(false) 
+  const { inspectedImage: inspectImageRaw, overrideInspectedImage } = useUnityInspect();
+  const { paused } = useUnityPause();
 
-  const handleUploadOverlayClick = (upload) => {
-    const data = `1,1,1,/${upload}`;
-    currentUnityContext.unityInstance.SendMessage("GameController", "ArtJson", data)
+  const inspectedImage = useMemo(() => {
+    const inspectImageParams = inspectImageRaw?.detail?.split(",")
+    const inspectType = inspectImageRaw?.inspectType
+
+    if (inspectImageParams?.length === 4) {
+      const [ size, frame, position, url ] = inspectImageParams;
+      return {
+        size: size || 0,
+        frame: frame || 1, 
+        position: position || 0,
+        url, 
+        texture: null, 
+        inspectType: "unity-inspect"
+      }
+    }
+
+    if (inspectImageParams?.length === 3) {
+      const _inspectType = inspectType === "unity-empty-inspect" ? "unity-small-inspect" : "unity-large-inspect"
+      const [ position, texture, url ] = inspectImageParams;
+      return {
+        size: 0,
+        frame: 1, 
+        position: position || 0,
+        url, 
+        texture: texture || 0,
+        inspectType: _inspectType
+      }
+    }
+
+    return {
+      size: null, 
+      frame: null, 
+      position: null, 
+      texture: null, 
+      inspectType: null
+    }
+
+  }, [inspectImageRaw]);
+
+
+  const showFrameOptions = useCallback(() => setOption(options.frameOptions), [])
+  const showSizeOptions = useCallback(() => setOption(options.sizeOptions), [])
+  
+  const showContentList = useCallback(() => setContentListIsVisible(true), [])
+  const hideContentList = useCallback(() => setContentListIsVisible(false), [])
+
+  const clearUI = useCallback(() => {
+    setOption();
+    setContentListIsVisible(false)
+  }, [])
+
+  const handleContentSelect = useCallback((selectedContent) => {
+    const { position, size, frame } = inspectedImage;
+    const { path: url } = selectedContent
+    const outputString = `${size},${frame},${position},${serverHostname}${url}`
+    unityContext.send("GameController", "ArtJson", outputString);
+    overrideInspectedImage(outputString)
+    clearUI()
+  }, [inspectedImage, unityContext, clearUI, overrideInspectedImage])
+
+  const handleObjContentSelect = useCallback((selectedContent) => {
+    const texture = 0;
+    const { position } = inspectedImage;
+    const { path: url } = selectedContent
+    const outputString = `${position},${texture},${serverHostname}${url}`
+    unityContext.send("GameController", "ObjSJson", outputString);
+    overrideInspectedImage(outputString)
+    clearUI()
+  }, [inspectedImage, unityContext, clearUI, overrideInspectedImage])
+
+  const handleRemoveContentAtPosition = useCallback(() => {
+    const { position, size, frame } = inspectedImage;
+    const outputString = `${size},${frame},${position},${serverHostname}/static_content/uploads/glare.png`
+    unityContext.send("GameController", "ArtJson", outputString);
+    overrideInspectedImage(outputString)
+  }, [inspectedImage, unityContext, overrideInspectedImage])
+
+  const ClearUIButton = () => (
+    <button class="back-button" onClick={clearUI}>
+      <ArrowBackOutlined/>
+    </button>
+  );
+
+  const changeCurrentFrame = useCallback((frame) => {
+    try {
+      if (!inspectedImage || !unityContext) return;
+      const {size, position, url} = inspectedImage;
+      const outputString = `${size},${frame},${position},${url}`
+      unityContext.send("GameController", "ArtJson", outputString);
+      overrideInspectedImage(outputString)
+    } catch(error) {
+      console.log("[changeCurrentFrame] error --", error)
+    }
+  }, [unityContext, inspectedImage, overrideInspectedImage])
+
+  const changeCurrentSize = useCallback((size) => {
+    try {
+      if (!inspectedImage || !unityContext) return;
+      const {frame, position, url} = inspectedImage;
+      const outputString = `${size},${frame},${position},${url}`
+      unityContext.send("GameController", "ArtJson", outputString);
+      overrideInspectedImage(outputString)
+    } catch(error) {
+      console.log("[changeCurrentFrame] error --", error)
+    }
+  }, [unityContext, inspectedImage, overrideInspectedImage])
+
+  const fileExists = useMemo(() => !isEmpty(inspectedImage?.url), [inspectedImage] );
+
+  const ImageInspectControls = () => {
+    switch (option) {
+  
+      case options.frameOptions:
+        return (
+          <div id="unity-inspect-controls">
+            <ClearUIButton/>
+            <button onClick={() => changeCurrentFrame(0)}>Brown</button>
+            <button onClick={() => changeCurrentFrame(1)}>White</button>
+            <button onClick={() => changeCurrentFrame(2)}>Black</button>
+          </div>
+        );
+    
+      case options.sizeOptions:
+        return (
+          <div id="unity-inspect-controls">
+            <ClearUIButton/>
+            <button onClick={() => changeCurrentSize(0)}>Square</button>
+            <button onClick={() => changeCurrentSize(1)}>Portrait</button>
+            <button onClick={() => changeCurrentSize(2)}>Landscape</button>
+          </div>
+        );
+    
+    
+        default:    
+          return (
+            <div id="unity-inspect-controls">
+    
+              { contentListIsVisible && 
+                <ContentListModal 
+                  showType={"image"}
+                  handleCancel={hideContentList}
+                  handleContentSelect={handleContentSelect}
+                />
+              }
+    
+              <button onClick={showContentList}>
+                {fileExists ? "Change" : "Add"} Image
+              </button>
+              
+              <button onClick={showSizeOptions} disabled={!fileExists}>
+                Change Image Size
+              </button>
+    
+              <button onClick={showFrameOptions} disabled={!fileExists}>
+                Change Image Frame
+              </button>
+              
+              <button onClick={handleRemoveContentAtPosition} disabled={!fileExists}>
+                Remove Image
+              </button>
+            </div>
+          );
+    }
+  };
+
+  const ImageObjControls = () => {
+
+    return (
+      <div id="unity-inspect-controls">
+
+        { contentListIsVisible && 
+          <ContentListModal 
+            showType={"objects3d"}
+            handleCancel={hideContentList}
+            handleContentSelect={handleObjContentSelect}
+          />
+        }
+
+        <button onClick={showContentList}>
+          {fileExists ? "Change" : "Add"} Object
+        </button>
+        
+        <button onClick={handleRemoveContentAtPosition} disabled={!fileExists}>
+          Remove Object
+        </button>
+      </div>
+    );
+  };
+
+  console.log({inspectedImage})
+
+  const noObjectSelected = useMemo(() => {
+    return Object.values(inspectedImage).every(i => i === null);
+  }, [inspectedImage])
+
+  if (paused || noObjectSelected) return null;
+
+  if (inspectedImage?.inspectType === "unity-inspect") {
+    return <ImageInspectControls/>
+  } else {
+    return <ImageObjControls/>
   }
 
-  if ( isEmpty(currentUnityContext) ||  isEmpty(inspectedImage) ) return null;
-
-  return (
-    <div id="unity-inspect-controls">
-
-      <div>
-        <p>SIZE: {size}</p>
-        <p>FRAME: {frame}</p>
-        <p>POSITION: {position}</p>
-        <p>URL: {url}</p>
-      </div>
-
-      <div id="image-upload-controls">
-        { uploads && uploads.map(u => {
-
-          const url = u.replace(/\\/g, "/");
-          
-          return (
-            <button 
-              onClick={() => handleUploadOverlayClick(url)}
-              style={{ "--background-image": `url("/${url}")` }}
-            >Upload</button>
-          )
-        } 
-        )}
-      </div>
-    </div>
-  );
 };
 
 export default UnityInspectControls;

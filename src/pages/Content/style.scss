@@ -1,0 +1,45 @@
+#content {
+  
+  display: grid;
+
+  #content-filter-wrapper {
+    display: flex;
+    border-bottom: 1px solid black;
+    padding: 32px 0;
+
+    button {
+      margin-right: 8px;
+      width: 100px;
+      font-size: 12px;
+      padding: 2px;
+      border-radius: 35px;
+
+      &.active {
+        background-color: #222222;
+        color: white;
+      } 
+    }
+  }
+
+  #file-grids-wrapper {
+    max-height: calc(100vh  - 252px);
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .file-grid-wrapper {
+      padding: 24px 0;
+
+      .grid-header {
+        display: flex;
+        align-items: center;
+
+        button {
+          padding: 0 8px;
+          margin-left: 12px;
+          font-size: 12px;
+          border-radius: 24px;
+        }
+      }
+    }
+  }
+}

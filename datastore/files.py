@@ -5,6 +5,7 @@ class Files(SerializerMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     path = db.Column(db.String(1000), default="")
     uploaded_by = db.Column(db.Integer, default=-1)
+    name = db.Column(db.String(1000), default="")
 
     # relationships
     gallery_files = db.relationship('GalleryFiles')

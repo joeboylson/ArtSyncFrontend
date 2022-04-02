@@ -4,6 +4,24 @@
   display: grid;
   grid-template-columns: 90px 1fr;
 
+  &.hide-nav {
+    grid-template-columns: 1fr;
+
+    #page-content {
+      padding: 32px !important;
+      height: calc(100vh - 64px);
+    }
+  }
+
+  &.center-content {
+    place-items: center;
+    height: calc(100vh - 122px);
+
+    #page-content {
+      height: fit-content;
+    }
+  }
+
   nav {
     background-color: #222222;
     height: 100vh;
@@ -22,7 +40,6 @@
         display: block;
         width: 24px;
         height: 24px;
-        border: 1px solid white;
         margin: 0 auto;
       }
 

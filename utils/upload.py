@@ -1,11 +1,23 @@
 import os
 
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 REL_UPLOADS_FOLDER = "static_content/uploads"
 
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+def allowed_file(filename, allowed_extensions_string):
+
+    print("ALLOWED FILE")
+
+    allowed_extensions = allowed_extensions_string.split(",")
+
+    print(allowed_extensions)
+    print(filename)
+
+    is_filename = '.' in filename 
+    filename_is_allowed =  filename.split('.')[-1].lower() in allowed_extensions
+
+    print("is_filename", is_filename)
+    print("filename_is_allowed", filename_is_allowed)
+
+    return is_filename and filename_is_allowed
 
 
 def get_uploads():

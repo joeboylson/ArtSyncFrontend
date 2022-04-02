@@ -11,7 +11,10 @@ export const useUploads = () => {
   const fetchUploads = useCallback(() => {
     setLoading(true)
     get('/uploads')
-    .then( ({data}) => setUploads(data.uploads))
+    .then( ({data}) => {
+      console.log({data})
+      setUploads(data.uploads)
+    })
     .catch(error => console.log({error}))
     .finally(() => setLoading(false))
   }, [])

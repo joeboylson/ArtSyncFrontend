@@ -6,7 +6,7 @@ import { HomeOutlined, PublicOutlined, CollectionsOutlined } from "@material-ui/
 
 import "./style.scss";
 
-const PageWrapper = ({ children, hideNav }) => {
+const PageWrapper = ({ children, hideNav, centerContent }) => {
 
   const isHomeRoute = useMemo(() => {
     const _isHome = window.location.pathname === "/";
@@ -16,8 +16,17 @@ const PageWrapper = ({ children, hideNav }) => {
   const isExploreRoute = useMemo(() => window.location.pathname.includes("explore"), []);
   const isContentRoute = useMemo(() => window.location.pathname.includes("content"), []);
 
+  const pageWrapperClass = useMemo(() => {
+    const classNames = []
+
+    if (hideNav) classNames.push("hide-nav")
+    if (centerContent) classNames.push("center-content");
+
+    return classNames.join(" ");
+  }, [hideNav, centerContent])
+
   return (
-    <div id="page-wrapper">
+    <div id="page-wrapper" className={pageWrapperClass}>
         
         { !hideNav && 
           <nav>

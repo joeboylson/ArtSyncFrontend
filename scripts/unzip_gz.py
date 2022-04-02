@@ -3,14 +3,14 @@ import shutil
 
 in_outs = [
     [
-        "static_content\ASBuild\Build\ASBuild.data.gz",
-        "static_content\ASBuild\Build\ASBuild.data"
+        "static_content\The-Sky-Room\Build\Scene2.data.gz",
+        "static_content\The-Sky-Room\Build\Scene2.data"
     ], [
-        "static_content\ASBuild\Build\ASBuild.framework.js.gz",
-        "static_content\ASBuild\Build\ASBuild.framework.js"
+        "static_content\The-Sky-Room\Build\Scene2.framework.js.gz",
+        "static_content\The-Sky-Room\Build\Scene2.framework.js"
     ], [
-        "static_content\ASBuild\Build\ASBuild.wasm.gz",
-        "static_content\ASBuild\Build\ASBuild.wasm"
+        "static_content\The-Sky-Room\Build\Scene2.wasm.gz",
+        "static_content\The-Sky-Room\Build\Scene2.wasm"
     ]
 ]
 
