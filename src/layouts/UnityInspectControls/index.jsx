@@ -1,17 +1,11 @@
 import ContentListModal from '../ContentListModal';
-import FileUploadModal from '../FileUploadModal';
 import { useCallback, useMemo, useState } from "react";
 import { isEmpty } from "lodash"
 import { useUnityInspect } from "../../hooks/useUnityInspect";
-import { useUploads } from "../../hooks/useUploads";
-import { useUnitySendMessage } from "../../hooks/useUnitySendMessage";
 import { useUnityPause } from "../../hooks/useUnityPause";
 import { options } from "../../constants/controlOptions";
 import { ArrowBackOutlined } from "@material-ui/icons";
-import { useParams } from 'react-router-dom';
-import { post } from 'axios';
-import { serverHostname } from '../../utils/env';
-import { inspectTypes } from '../../constants/inspectType';
+import { serverHostname } from "../../utils/env"
 
 import "./style.scss";
 
@@ -76,7 +70,7 @@ const UnityInspectControls = ({unityContext}) => {
   const handleContentSelect = useCallback((selectedContent) => {
     const { position, size, frame } = inspectedImage;
     const { path: url } = selectedContent
-    const outputString = `${size},${frame},${position},http://localhost:5000${url}`
+    const outputString = `${size},${frame},${position},${serverHostname}${url}`
     unityContext.send("GameController", "ArtJson", outputString);
     overrideInspectedImage(outputString)
     clearUI()
@@ -86,7 +80,7 @@ const UnityInspectControls = ({unityContext}) => {
     const texture = 0;
     const { position } = inspectedImage;
     const { path: url } = selectedContent
-    const outputString = `${position},${texture},http://localhost:5000${url}`
+    const outputString = `${position},${texture},${serverHostname}${url}`
     unityContext.send("GameController", "ObjSJson", outputString);
     overrideInspectedImage(outputString)
     clearUI()
@@ -94,7 +88,7 @@ const UnityInspectControls = ({unityContext}) => {
 
   const handleRemoveContentAtPosition = useCallback(() => {
     const { position, size, frame } = inspectedImage;
-    const outputString = `${size},${frame},${position},http://localhost:5000/static_content/uploads/glare.png`
+    const outputString = `${size},${frame},${position},${serverHostname}/static_content/uploads/glare.png`
     unityContext.send("GameController", "ArtJson", outputString);
     overrideInspectedImage(outputString)
   }, [inspectedImage, unityContext, overrideInspectedImage])

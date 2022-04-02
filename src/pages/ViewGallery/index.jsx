@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { useSceneById } from "../../hooks/useSceneById";
 import { useGalleryById } from "../../hooks/useGalleryById";
+import { serverHostname } from "../../utils/env";
 
 const ViewGallery = () => {
 
@@ -17,28 +18,10 @@ const ViewGallery = () => {
   useEffect(() => {
     if (unityContext?.send) {      
       document.addEventListener('keydown', (e) => {
-
-        if (e.key === "~") {
-          try {
-
-            const emptyFrame = "http://localhost:5000/static_content/uploads/glare.png"
-            const emptyObj = "http://localhost:5000/static_content/uploads/teapot.obj"
-
-            /* INIT */
-            unityContext.send("GameController","ArtJson", `1,1,1,${emptyFrame}`);
-
-            unityContext.send("GameController","ObjJson", `0,0,${emptyObj}`);
-
-            unityContext.send("GameController","ObjSJson",`0,0,${emptyObj}`);
-
-            unityContext.send("GameController","LoadSong","http://localhost:5000/static_content/uploads/SmoothJazz.mp3")
-          } catch {}
-        }
-        
+        unityContext.send("GameController","LoadSong",`${serverHostname}/static_content/uploads/SmoothJazz.mp3`)        
       });
     }
   }, [unityContext])
-
 
   const handleUnityLoad = (unityContext) => setUnityContext(unityContext);
 
