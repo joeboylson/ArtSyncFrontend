@@ -3,14 +3,14 @@ import shutil
 
 in_outs = [
     [
-        "static_content\Art-Sync-Gallery-1\Build\ASBUIld.data.gz",
-        "static_content\Art-Sync-Gallery-1\Build\ASBUIld.data"
+        "static_content\Scene2\Build\Scene2.data.gz",
+        "static_content\Scene2\Build\Scene2.data"
     ], [
-        "static_content\Art-Sync-Gallery-1\Build\ASBUIld.framework.js.gz",
-        "static_content\Art-Sync-Gallery-1\Build\ASBUIld.framework.js"
+        "static_content\Scene2\Build\Scene2.framework.js.gz",
+        "static_content\Scene2\Build\Scene2.framework.js"
     ], [
-        "static_content\Art-Sync-Gallery-1\Build\ASBUIld.wasm.gz",
-        "static_content\Art-Sync-Gallery-1\Build\ASBUIld.wasm"
+        "static_content\Scene2\Build\Scene2.wasm.gz",
+        "static_content\Scene2\Build\Scene2.wasm"
     ]
 ]
 

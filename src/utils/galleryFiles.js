@@ -19,5 +19,5 @@ export const formatAPIGalleriesFiles = (apiGalleriesFiles) => {
 
   });
 
-  return [_data[0]]
+  return _data
 }

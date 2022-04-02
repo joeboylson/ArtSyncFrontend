@@ -185,6 +185,6 @@ def delete_gallery_file():
 
 @protected.route('/uploads')
 def uploads():
-    user_files = get_user_files(current_user.id)
+    user_files = get_user_files(1)
     user_files_serialized = serialize_array(user_files)
     return json.dumps({ "uploads": user_files_serialized })

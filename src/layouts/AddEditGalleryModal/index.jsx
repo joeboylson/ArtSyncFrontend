@@ -98,6 +98,28 @@ const AddEditGalleryModal = ({
               />
 
               <Controller
+                name=""
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <div className="radio-wrapper">
+                    <p>Background Music:</p>
+
+                    <label htmlFor={"music-radio"}>
+                      <input
+                        type="radio"
+                        name="music-radio"
+                        value={""}
+                        id={"music-radio"}
+                        onChange={onChange}
+                      />
+                      SmoothJazz.mp3
+                    </label>
+   
+                  </div>
+                )}
+              />
+
+              <Controller
                 name="sceneId"
                 control={control}
                 render={({ field: { onChange } }) => (

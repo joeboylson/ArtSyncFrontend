@@ -13,13 +13,8 @@ const ContentListModal = ({
   showType
 }) => {
 
-  const { setModalIsOpen } = useModalContext();
-
-  useEffect(() => {
-    setModalIsOpen(true)
-  }, [setModalIsOpen])
-
   const { uploads, loading } = useUploads();
+
   const { imageUploads, objects3dUploads, musicUploads } = sortUploads(uploads);
 
   const handleClickAway = (e) => {

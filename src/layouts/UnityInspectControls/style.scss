@@ -4,17 +4,19 @@
   left: 0;
   padding: 12px;
   background-color: rgba(0, 0, 0, 0.5);
-  width: 100%;
+  width: 180px;
+  border-radius: 0 10px 0 0;
 
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
 
   button {
     background-color: white;
-    width: fit-content;
+    width: 180px;
     padding: 4px 16px;
     border-radius: 24px;
     font-size: 12px;
-    margin-right: 12px;
 
     &:disabled{
       border: 1px solid #999999;

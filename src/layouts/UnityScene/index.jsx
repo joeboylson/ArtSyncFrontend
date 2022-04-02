@@ -11,14 +11,12 @@ const UnityScene = ({ scene, onLoad }) => {
   unityContext.on("loaded", () => onLoad(unityContext))
 
   return (
-    <Unity
-      id="unity-scene"
-      unityContext={unityContext}
-      style={{ 
-        width: width - 50, 
-        height: height - 50 
-      }}
-    />
+    <div className="no-overflow">
+      <Unity
+        id="unity-scene"
+        unityContext={unityContext}
+      />
+    </div>
   );
 };
 

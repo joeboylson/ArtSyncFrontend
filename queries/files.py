@@ -16,6 +16,8 @@ def create_new_file(path, uploaded_by, file_type_id):
 def get_user_files(user_id):
   try:
 
+    print(user_id)
+
     q = db.session.query(Files, FileTypes)
     q = q.select_from(join(Files, FileTypes))
     q = q.filter(Files.uploaded_by == user_id)
